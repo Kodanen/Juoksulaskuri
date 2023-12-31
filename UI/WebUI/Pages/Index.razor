@@ -1,0 +1,21 @@
+﻿@page "/"
+
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager nav
+@inject MemContainer mem
+
+@using Juoksulaskuri.Core.Models;
+
+<PageTitle>Omat tiedot</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Omat tiedot</MudText>
+@if(mem.UserInfo == null || string.IsNullOrEmpty(mem.UserInfo.Name))
+{
+    <MudAlert Severity="Severity.Normal">Käyttäjätiedot puuttuvat</MudAlert>
+}
+else
+{
+    
+}
+
+<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>

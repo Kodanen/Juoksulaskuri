@@ -1,0 +1,232 @@
+﻿@page "/personal"
+
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject MemContainer mem
+@inject NavigationManager nav
+
+@using Juoksulaskuri.Core.Models;
+
+<PageTitle>Juoksijan tiedot</PageTitle>
+<MudText Typo="Typo.h3" GutterBottom="true">Juoksijan tiedot</MudText>
+
+<!-- User data fields -->
+@if (string.IsNullOrEmpty(user.Name))
+{
+    <MudAlert Severity="Severity.Normal">Käyttäjätiedot puuttuvat</MudAlert>
+}
+<MudGrid>
+    <MudItem xs="12">
+        <MudPaper>
+            <EditForm Model="user" OnValidSubmit="HandleSubmit">
+                <DataAnnotationsValidator />
+
+                <MudCard>
+                    <MudCardContent>
+                        <MudTextField Label="Nimi" @bind-Value="user.Name" HelperText="Juoksija" Disabled=@isDisabled Variant="Variant.Filled" />
+                        <MudNumericField Label="Max HR" T="int" @bind-Value="user.MaxHeartrate" HelperText="" Disabled="@isDisabled" />
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Disabled="@isDisabled" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" />
+                        @if (isDisabled)
+                        {
+                            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                            <MudText Class="ms-2">Tallentaa..</MudText>
+                        }
+                        else
+                        {
+                            <MudText>Tallenna</MudText>
+                        }
+                        <!--<MudButton ButtonType="ButtonType.Reset" Variant="Variant.Filled" Color="MudBlazor.Color.Error"/>-->
+                    </MudCardActions>
+                </MudCard>
+            </EditForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+<!-- Race results -->
+@if (mem.Races == null || mem.Races.Count() == 0)
+{
+    <MudAlert Severity="Severity.Normal">Kilpailutulokset puuttuvat</MudAlert>
+}
+<MudGrid Spacing="2">
+    <MudItem xs="6">
+        <MudPaper>
+            <EditForm Model="race" OnValidSubmit="HandleRaceSubmit">
+                <DataAnnotationsValidator/>
+
+                <MudCard>
+                    <MudCardContent>
+                        <MudNumericField Label="Matka" @bind-Value="race.Distance" HelperText="Matka [m]" Disabled=@isDisabledRace />
+                        <MudTextField Label="Aika" @bind-Value="race.Duration" HelperText="Aika [hh:mm:ss]" Disabled=@isDisabledRace />
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" Disabled=@isDisabledRace/>
+                        @if (isDisabledRace)
+                        {
+                            <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                            <MudText Class="ms-2">Tallentaa...</MudText>
+                        }
+                        else
+                        {
+                            <MudText>Tallenna</MudText>
+                        }
+                        <MudButton ButtonType="ButtonType.Reset" Variant="Variant.Filled" Color="MudBlazor.Color.Error"/>
+                    </MudCardActions>
+                </MudCard>
+            </EditForm>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="6">
+        <MudPaper>
+            <MudList Clickable=true SelectedValueChanged="RaceSelected" SelectedValue="selectedRace">
+                @if (mem.Races != null && mem.Races.Count() > 0)
+                {
+                    foreach (var r in mem.Races)
+                    {
+                        <MudListItem Value="@r" Text="@r.ToString()"/>
+                    }
+                }
+            </MudList>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    // onclick="RaceSelected" @bind-SelectedValue="race"
+
+    UserInfo user = new UserInfo();
+    RaceResult race = new RaceResult();
+    RaceResult selectedRace;
+
+    // Variables
+    bool isNew = false;
+    bool isDisabled = false;
+    bool isNewRace = true;
+    bool isDisabledRace = false;
+
+    // On Load
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        // ** First reading of local data to memory in in MainLayput
+
+        // Try to read personal data from disk
+        //if (string.IsNullOrEmpty(mem.UserInfo) && string.IsNullOrEmpty(user.Name))
+        //    mem.UserInfo = await localStorage.GetItemAsync<Juoksulaskuri.Core.Models.UserInfo>("Userdata");
+
+        // Get user data from memory to screen
+        if (mem.UserInfo != null)
+        {
+            user = mem.UserInfo;
+        }
+
+        // Update all listening controls
+        mem.Update();
+
+
+    }
+
+    private void RaceSelected(object item)
+    {
+        selectedRace = (Juoksulaskuri.Core.Models.RaceResult)item;
+        race = selectedRace;
+        isNewRace = false;
+    }
+
+    #region Form events
+    // Save edited data
+    private async void HandleSubmit()
+    {
+        if (isNew)
+        {
+            // Create record to API
+        }
+        else
+        {
+            // Modify old record
+
+            // Disable editing while saving
+            isDisabled = true;
+
+            // Post edit to API
+
+            // Save to local localstorage
+            user.Modified = DateTime.Now;
+            mem.UserInfo = user;
+            await localStorage.SetItemAsync<Juoksulaskuri.Core.Models.UserInfo>("Userdata", mem.UserInfo);
+
+            // Enable editing again
+            isDisabled = false;
+            this.StateHasChanged();
+
+        }
+    }
+
+    private async void HandleRaceSubmit()
+    {
+        if (race.IsValid() == false)
+            return;
+
+        if (isNewRace)
+        {
+            // Add new race
+            isDisabledRace = true;
+
+            race.Modified = DateTime.Now;
+            mem.AddRace(race);
+
+            await localStorage.SetItemAsync<List<Juoksulaskuri.Core.Models.RaceResult>>("Races", mem.Races);
+
+            // Enable editing again
+            isDisabledRace = false;
+            this.StateHasChanged();
+        }
+        else
+        {
+            // Edit
+            isDisabledRace = true;
+
+            // Find the one we want to edit and save data
+            mem.EditRace(race);
+
+            // Make it possible to add again
+            race = new RaceResult();
+            isNewRace = true;
+
+            // Enable editing again
+            isDisabledRace = false;
+            this.StateHasChanged();
+        }
+    }
+
+    // Create new record
+    private void CreateNew()
+    {
+        user = new UserInfo();
+
+        isNew = true;
+    }
+
+    // Get instance to edit
+    private void Edit(int id)
+    {
+        /*
+        var locationToEdit = settings.Find(x => x.Id == id);
+        if (locationToEdit != null)
+        {
+            setting = locationToEdit;
+            isNew = false;
+        }
+        */
+    }
+    // Remove editable instance
+    private void Delete()
+    {
+        // Post to API
+    }
+
+
+
+    #endregion
+}

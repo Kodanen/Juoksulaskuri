@@ -1,0 +1,92 @@
+﻿@inherits LayoutComponentBase
+
+@inject Juoksulaskuri.MemContainer memory
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager nav
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>WebUI</PageTitle>
+
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+               
+        @if(memory.LocationId > 0)        
+        {
+            <MudText>Tervetuloa @memory.Name</MudText>            
+            <MudSpacer />
+
+            <MudSpacer />
+            <MudAlert Severity="Severity.Success"></MudAlert>
+        }
+        else
+        {
+            <MudAlert Severity="Severity.Warning">Kirjaudu sisään</MudAlert>
+        }
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        try
+        {
+            // Read data from local storage to memory
+            /*
+            memory.Locations = await localStorage.GetItemAsync<List<LocationsUI>>("Locations");
+            if (memory.Locations != null && memory.Locations.Count > 0)
+            {
+                memory.LocationName = memory.Locations.First().FMILocationName;
+                memory.LocationId = memory.Locations.First().LocationId;
+            }
+            memory.Sensors = await localStorage.GetItemAsync<List<SensorUI>>("Sensors");
+            memory.Controls = await localStorage.GetItemAsync<List<ControlUI>>("Controls");
+
+            // Update all listening controls
+            memory.Update();
+
+            if (memory.User == null || memory.User.Id < 1)
+                nav.NavigateTo("login");
+
+                */
+
+        }
+        catch (Exception)
+        {
+
+        }
+
+    }
+
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    protected override void OnInitialized()
+    {
+        memory.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        memory.OnChange -= StateHasChanged;
+    }
+}
+
+
