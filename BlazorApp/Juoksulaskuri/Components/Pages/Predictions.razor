@@ -1,11 +1,11 @@
 ﻿@page "/predictions"
 @rendermode InteractiveServer
 
+@using Juoksulaskuri.Core;
+
+
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager nav
-@inject StateContainer memory
-
-@using PowerControl.Core.Models
 
 <PageTitle>Kilpailuennuste</PageTitle>
 
