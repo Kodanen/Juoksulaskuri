@@ -23,7 +23,8 @@
                 <MudCard>
                     <MudCardContent>
                         <MudTextField Label="Nimi" @bind-Value="user.Name" HelperText="Juoksija" Disabled=@isDisabled Variant="Variant.Filled" />
-                        <MudNumericField Label="Max HR" T="int" @bind-Value="user.MaxHeartrate" HelperText="" Disabled="@isDisabled" />
+                        <MudNumericField Label="Max HR" T="int" @bind-Value="user.MaxHeartrate" HelperText="bpm" Disabled="@isDisabled" />
+                        <MudNumericField Label="Paino" T="double" @bind-Value="user.Weight" HelperText="[kg]" Disabled="@isDisabled" />
                     </MudCardContent>
                     <MudCardActions>
                         <MudButton Disabled="@isDisabled" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" />

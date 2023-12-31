@@ -16,7 +16,7 @@
         <MudTh>Nopeus [km/h]</MudTh>
         <MudTh>Tahti</MudTh>
         <MudTh>% VO2max</MudTh>
-        <MudTh>Energia</MudTh>
+        <MudTh>Energia [kcal]</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Matka">@context.Distance</MudTd>
@@ -24,7 +24,7 @@
         <MudTd DataLabel="Nopeus">@context.SpeedKMH.ToString("F1")</MudTd>
         <MudTd DataLabel="Tahti">@context.Pace</MudTd>
         <MudTd DataLabel="VO2max%">@context.PercentMax.ToString("F1")</MudTd>
-        <MudTd DataLabel="Energia">@context.Energy</MudTd>
+        <MudTd DataLabel="Energia">@context.Energy.ToString("F0")</MudTd>
     </RowTemplate>
 </MudTable>
 
