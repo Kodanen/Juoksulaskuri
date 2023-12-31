@@ -11,11 +11,11 @@
 <MudText Typo="Typo.h3" GutterBottom="true">Omat tiedot</MudText>
 @if(mem.UserInfo == null || string.IsNullOrEmpty(mem.UserInfo.Name))
 {
-    <MudAlert Severity="Severity.Normal">Käyttäjätiedot puuttuvat</MudAlert>
+    <MudAlert Severity="Severity.Error">Käyttäjätiedot puuttuvat</MudAlert>
 }
 else
 {
-    
+    <MudAlert Severity="Severity.Success">Olet syöttänyt tiedot</MudAlert>
 }
 
-<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
+<MudAlert Severity="Severity.Info">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
