@@ -11,15 +11,5 @@ namespace Juoksulaskuri.Core.Models
         public double Distance { get; set; } // [m]
         public TimeSpan Duration {  get; set; } // Time it took to travel the distance
 
-        #region UI update
-        public void Update()
-        {
-            NotifyStateChanged();
-        }
-
-        public event Action? OnChange;
-
-        private void NotifyStateChanged() => OnChange?.Invoke();
-        #endregion
     }
 }

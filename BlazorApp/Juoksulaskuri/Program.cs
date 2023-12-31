@@ -1,10 +1,20 @@
+using Blazored.LocalStorage;
 using Juoksulaskuri.Components;
+using Juoksulaskuri.Components.Layout;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddMudServices();// MudBlazor
+
+// Add singleton StateContainer for site-wide memory
+builder.Services.AddSingleton<Juoksulaskuri.MemContainer>();
+// Local storage
+builder.Services.AddBlazoredLocalStorage();
 
 var app = builder.Build();
 
