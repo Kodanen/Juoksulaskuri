@@ -23,14 +23,30 @@ namespace Juoksulaskuri.Core.Models
 
         public int RestingHeartrate { get; set; }
         public int AertHeartrate { get; set; }
-        public int AnAertHeartrate { get; set; }
+        public int LTHeartrate { get; set; }
 
         public int MaxHeartrate { get; set; }
         
+        /// <summary>
+        /// Aerobic Threshold speed [m/s]
+        /// </summary>
+        public double AertSpeed {  get; set; }
+        /// <summary>
+        /// Lactate Threshold pace [#m:ss]
+        /// </summary>
+        public string AertPace { get { return Helpers.SpeedToPace(AertSpeed); } }
 
-        public double AertSpeed {  get; set; }  
-        public double AnAertSpeed { get; set; } 
+        /// <summary>
+        /// Lactate Threshold speed [m/s]
+        /// </summary>
+        public double LTSpeed { get; set; }
+        /// <summary>
+        /// Lactate Threshold pace [#m:ss]
+        /// </summary>
+        public string LTPace { get { return Helpers.SpeedToPace(LTSpeed); } }
 
+        public double Vdot { get; set; }
+        public double VO2max { get; set; }
 
         public DateTime Modified { get; set; }
 

@@ -19,8 +19,9 @@ namespace Juoksulaskuri.Core.Models
 
         public double PercentMax { get; set;}
         public double VO2 { get; set; }
-        public double Vdot { get; set; }
 
         public double Energy {  get; set; }
+
+        public double HR { get; set; }
     }
 }

@@ -9,26 +9,30 @@
 <PageTitle>Kisaennusteet</PageTitle>
 <MudText Typo="Typo.h3" GutterBottom="true">Kisaennusteet</MudText>
 
-<MudTable Items="@predictions" Hover="false" Breakpoint="Breakpoint.Sm">
-    <HeaderContent>
-        <MudTh>Matka [m]</MudTh>
-        <MudTh>Aika</MudTh>
-        <MudTh>Nopeus [km/h]</MudTh>
-        <MudTh>Tahti</MudTh>
-        <MudTh>% VO2max</MudTh>
-        <MudTh>Energia [kcal]</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Matka">@context.Distance</MudTd>
-        <MudTd DataLabel="Aika">@context.Duration</MudTd>
-        <MudTd DataLabel="Nopeus">@context.SpeedKMH.ToString("F1")</MudTd>
-        <MudTd DataLabel="Tahti">@context.Pace</MudTd>
-        <MudTd DataLabel="VO2max%">@context.PercentMax.ToString("F1")</MudTd>
-        <MudTd DataLabel="Energia">@context.Energy.ToString("F0")</MudTd>
-    </RowTemplate>
-</MudTable>
+<MudPaper>
+    <MudText Typo="Typo.h7" GutterBottom="true">Jack Daniels</MudText>
 
-
+    <MudTable Items="@predictions" Hover="false" Breakpoint="Breakpoint.Sm">
+        <HeaderContent>
+            <MudTh>Matka [m]</MudTh>
+            <MudTh>Aika</MudTh>
+            <MudTh>Nopeus [km/h]</MudTh>
+            <MudTh>Tahti</MudTh>
+            <MudTh>% VO2max</MudTh>
+            <MudTh>Syke</MudTh>
+            <MudTh>Energia [kcal]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Matka">@context.Distance</MudTd>
+            <MudTd DataLabel="Aika">@context.Duration</MudTd>
+            <MudTd DataLabel="Nopeus">@context.SpeedKMH.ToString("F1")</MudTd>
+            <MudTd DataLabel="Tahti">@context.Pace</MudTd>
+            <MudTd DataLabel="VO2max%">@context.PercentMax.ToString("F1")</MudTd>
+            <MudTd DataLabel="HR">@context.HR.ToString("F0")</MudTd>
+            <MudTd DataLabel="Energia">@context.Energy.ToString("F0")</MudTd>
+        </RowTemplate>
+    </MudTable>
+    </MudPaper>
 
     @code {
     List<RacePrediction> predictions = new List<RacePrediction>();

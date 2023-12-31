@@ -25,6 +25,9 @@
                         <MudTextField Label="Nimi" @bind-Value="user.Name" HelperText="Juoksija" Disabled=@isDisabled Variant="Variant.Filled" />
                         <MudNumericField Label="Max HR" T="int" @bind-Value="user.MaxHeartrate" HelperText="bpm" Disabled="@isDisabled" />
                         <MudNumericField Label="Paino" T="double" @bind-Value="user.Weight" HelperText="[kg]" Disabled="@isDisabled" />
+                        <MudNumericField Label="Vdot" T="double" @bind-Value="user.Vdot" Format="F1" HelperText="VDot parhaasta kilpailusta" Disabled="true" />
+                        <MudNumericField Label="LT HR" T="int" @bind-Value="user.LTHeartrate" HelperText="Laskennallinen kynnyssyke 90% max HR" Disabled="true"/>
+                        <MudTextField Label="LT tahti" Value="@user.LTPace" ReadOnly TextUpdateSuppression="false" Disabled=true />
                     </MudCardContent>
                     <MudCardActions>
                         <MudButton Disabled="@isDisabled" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" />
@@ -176,12 +179,8 @@
 
             race.Modified = DateTime.Now;
             mem.AddRace(race);
-
+            // Save to local storage
             await localStorage.SetItemAsync<List<Juoksulaskuri.Core.Models.RaceResult>>("Races", mem.Races);
-
-            // Enable editing again
-            isDisabledRace = false;
-            this.StateHasChanged();
         }
         else
         {
@@ -190,15 +189,17 @@
 
             // Find the one we want to edit and save data
             mem.EditRace(race);
-
-            // Make it possible to add again
-            race = new RaceResult();
-            isNewRace = true;
-
-            // Enable editing again
-            isDisabledRace = false;
-            this.StateHasChanged();
+            // Save to local storage
+            await localStorage.SetItemAsync<List<Juoksulaskuri.Core.Models.RaceResult>>("Races", mem.Races);
         }
+
+        // Make it possible to add again
+        race = new RaceResult();
+        isNewRace = true;
+
+        // Enable editing again
+        isDisabledRace = false;
+        this.StateHasChanged();
     }
 
     // Create new record
