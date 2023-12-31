@@ -1,7 +1,13 @@
-﻿@page "/counter"
+﻿@page "/predictions"
 @rendermode InteractiveServer
 
-<PageTitle>Counter</PageTitle>
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager nav
+@inject StateContainer memory
+
+@using PowerControl.Core.Models
+
+<PageTitle>Kilpailuennuste</PageTitle>
 
 <h1>Counter</h1>
 
