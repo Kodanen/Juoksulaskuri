@@ -1,6 +1,7 @@
 ﻿using Juoksulaskuri.Core.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Transactions;
 
 namespace Juoksulaskuri.Core
 {
@@ -15,6 +16,13 @@ namespace Juoksulaskuri.Core
         {
             // Minutes per kilometer
             var min = 1000.0 / speedMs / 60.0;
+            var fullmin = Math.Truncate(min);
+
+            return fullmin.ToString("#0") + ":" + Math.Truncate((min - fullmin) * 60).ToString("00");
+        }
+
+        public static string MinPerKmToPace(double min)
+        {
             var fullmin = Math.Truncate(min);
 
             return fullmin.ToString("#0") + ":" + Math.Truncate((min - fullmin) * 60).ToString("00");

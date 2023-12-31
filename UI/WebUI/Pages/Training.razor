@@ -1,4 +1,4 @@
-﻿<h3>Training</h3>
+﻿@page "/trainingpace"
 
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject MemContainer mem
@@ -8,7 +8,63 @@
 
 <PageTitle>Harjoitteluvauhdit</PageTitle>
 <MudText Typo="Typo.h3" GutterBottom="true">Harjoitteluvauhdit</MudText>
+<MudText Typo="Typo.h6" GutterBottom="true">Perustuen VDot @mem.UserInfo.Vdot.ToString("F1")</MudText>
 
-@code {
+    <MudText Typo="Typo.h6" GutterBottom="true">Jack Daniels</MudText>
+    <MudStack Row=false>
+        <MudPaper Class="pa-3" Height="100px" Width="150px">
+                    <MudChip>Palautus</MudChip>
+                    <MudText Typo="Typo.body2" Align="Align.Center">@tp.RecoveryPace</MudText>
+            </MudPaper>
 
+        <MudPaper Class="pa-3"  Height="100px" Width="150px">
+                <MudChip>Peruskunto</MudChip>
+            <MudText Typo="Typo.body2">@tp.EasyPace /km</MudText>
+                </MudPaper>
+
+        <MudPaper Class="pa-3" Height="100px" Width="150px">
+                <MudChip Color="Color.Warning">Maraton</MudChip>
+                <MudText Typo="Typo.body2">@tp.MaratonPace /km</MudText>
+        </MudPaper>
+
+        <MudPaper Class="pa-3"  Height="100px" Width="150px">
+                <MudChip Color="Color.Warning">Tempo</MudChip>
+        <MudText Typo="Typo.body2">@tp.TempoPace /km</MudText>
+        <MudText Typo="Typo.caption">10 ... 300min</MudText>
+
+        </MudPaper>
+        <MudPaper Class="pa-3" Height="100px" Width="150px">
+                <MudChip Color="Color.Secondary">Kynnys</MudChip>
+        <MudText Typo="Typo.body2">@tp.ThresholdPace /km</MudText>
+        </MudPaper>
+
+        <MudPaper Class="pa-3" Height="100px" Width="150px">
+                <MudChip Color="Color.Secondary">Intervalli</MudChip>
+        <MudText Typo="Typo.body2">@tp.IntervalPace /km</MudText>
+        </MudPaper>
+
+        <MudPaper Class="pa-3" Height="100px" Width="150px">
+                <MudChip Color="Color.Error">Toistot</MudChip>
+        <MudText Typo="Typo.body2">@tp.RepetitionPace /km</MudText>
+        </MudPaper>
+
+
+    </MudStack>
+
+    @code {
+    TrainingPaces tp = new TrainingPaces();
+
+    // On Load
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        // Check that we have data
+        if (mem.UserInfo.IsValid() && mem.IsValidRace())
+        {
+            // Calculate paces by updating Vdot
+            tp.Vdot = mem.UserInfo.Vdot;
+
+        }
+    }
 }

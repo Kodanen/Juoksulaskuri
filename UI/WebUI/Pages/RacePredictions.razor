@@ -10,7 +10,7 @@
 <MudText Typo="Typo.h3" GutterBottom="true">Kisaennusteet</MudText>
 
 <MudPaper>
-    <MudText Typo="Typo.h7" GutterBottom="true">Jack Daniels</MudText>
+    <MudText Typo="Typo.h6" GutterBottom="true">Jack Daniels</MudText>
 
     <MudTable Items="@predictions" Hover="false" Breakpoint="Breakpoint.Sm">
         <HeaderContent>
@@ -32,9 +32,9 @@
             <MudTd DataLabel="Energia">@context.Energy.ToString("F0")</MudTd>
         </RowTemplate>
     </MudTable>
-    </MudPaper>
+</MudPaper>
 
-    @code {
+@code {
     List<RacePrediction> predictions = new List<RacePrediction>();
 
     // On Load
