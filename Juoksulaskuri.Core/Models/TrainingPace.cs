@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Juoksulaskuri.Core.Models
 {
+    // Jack Daniels training paces
     public class TrainingPaces
     {
         public string RecoveryPace { get; set; }
