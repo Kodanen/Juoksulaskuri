@@ -47,7 +47,7 @@
             mem.UserInfo = await localStorage.GetItemAsync<Juoksulaskuri.Core.Models.UserInfo>("Userdata");
             mem.SetRaces(await localStorage.GetItemAsync<List<Juoksulaskuri.Core.Models.RaceResult>>("Races"));
 
-            if(string.IsNullOrEmpty(mem.UserInfo.Name))
+            if(mem.UserInfo == null || string.IsNullOrEmpty(mem.UserInfo.Name))
                 nav.NavigateTo("/personal");
         }
         catch(Exception)

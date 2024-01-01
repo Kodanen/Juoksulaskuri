@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Juoksulaskuri.Core\Juoksulaskuri.Core.csproj" />
+    <ProjectReference Include="..\Juoksulaskuri.Core\Juoksulaskuri.Core.csproj" />
   </ItemGroup>
 
 </Project>

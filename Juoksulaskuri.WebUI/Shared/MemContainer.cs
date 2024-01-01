@@ -9,7 +9,7 @@ namespace WebUI.Shared
         private UserInfo _userInfo;
         public UserInfo UserInfo 
         { 
-            get{  return _userInfo; }
+            get{  return _userInfo != null ? _userInfo : new UserInfo(); }
             set {  _userInfo = value; } 
         }
         #endregion
@@ -107,6 +107,9 @@ namespace WebUI.Shared
         /// </summary>
         public void UpdatePerformance()
         {
+            if(UserInfo == null)
+                return;
+
             UserInfo.VO2max = 0;
             UserInfo.Vdot = 0;
 
